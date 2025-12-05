@@ -39,6 +39,7 @@ option.exrc = true
 option.wrap = false
 option.splitright = true
 option.scrolloff = 3
+clipboard = "unnamedplus"
 
 -- Buffer Settings --
 buffer.fileenconding = "utf-8"
