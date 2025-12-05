@@ -30,6 +30,11 @@ return {
         }
     },
     {
+        'nvim-mini/mini.nvim',
+        version = false,
+        config = true,
+    },
+    {
         "s1n7ax/nvim-window-picker",
         config = function()
             require("window-picker").setup({
