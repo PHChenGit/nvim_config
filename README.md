@@ -8,6 +8,7 @@ Modular Neovim configuration built with Lua and [Lazy.nvim](https://github.com/f
 - Git
 - A [Nerd Font](https://www.nerdfonts.com/) (for icons)
 - `xclip` or `wl-copy` (system clipboard)
+- [ripgrep](https://github.com/BurntSushi/ripgrep) (for Telescope live)
 - Optional: `fd`, `ripgrep` (for Telescope)
 - Optional: `npm` / `node` (for pyright LSP)
 - Optional: [Zellij](https://zellij.dev/) (for pane navigation)
