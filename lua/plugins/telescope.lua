@@ -1,37 +1,67 @@
 return {
+  {
     "nvim-telescope/telescope.nvim",
+    cmd = "Telescope",
+    version = false,
     dependencies = {
-        "nvim-lua/plenary.nvim",
-        { 
-            'nvim-telescope/telescope-fzf-native.nvim', 
-            build = 'make' 
-        }
+      "nvim-lua/plenary.nvim",
+      {
+        "nvim-telescope/telescope-fzf-native.nvim",
+        build = "make",
+        cond = function()
+          return vim.fn.executable("make") == 1
+        end,
+      },
+    },
+    keys = {
+      { "<leader>ff", "<cmd>Telescope find_files<CR>",                desc = "Find files" },
+      { "<leader>fg", "<cmd>Telescope live_grep<CR>",                 desc = "Live grep" },
+      { "<leader>fb", "<cmd>Telescope buffers<CR>",                   desc = "Buffers" },
+      { "<leader>fh", "<cmd>Telescope help_tags<CR>",                 desc = "Help tags" },
+      { "<leader>fr", "<cmd>Telescope oldfiles<CR>",                  desc = "Recent files" },
+      { "<leader>fs", "<cmd>Telescope lsp_document_symbols<CR>",      desc = "Document symbols" },
+      { "<leader>fw", "<cmd>Telescope lsp_workspace_symbols<CR>",     desc = "Workspace symbols" },
+      { "<leader>fd", "<cmd>Telescope diagnostics<CR>",               desc = "Diagnostics" },
+      { "<leader>gc", "<cmd>Telescope git_commits<CR>",               desc = "Git commits" },
+      { "<leader>gb", "<cmd>Telescope git_branches<CR>",              desc = "Git branches" },
     },
     config = function()
-        require('telescope').setup {
-            extensions = {
-                fzf = {
-                    fuzzy = true,                    -- false will only do exact matching
-                    override_generic_sorter = true,  -- override the generic sorter
-                    override_file_sorter = true,     -- override the file sorter
-                    case_mode = "smart_case",        -- or "ignore_case" or "respect_case"
-                    -- the default case_mode is "smart_case"
-                }
-            }
-        }
-        require('telescope').load_extension('fzf')
-        local builtin = require('telescope.builtin')
-        vim.keymap.set('n', '<leader>ff', builtin.find_files, {})
-        vim.keymap.set('n', '<leader>fg', builtin.live_grep, {})
-        vim.keymap.set('n', '<leader><space>', builtin.buffers, {})
-        vim.keymap.set('n', '<leader>fh', builtin.help_tags, {})
-        vim.keymap.set('n', '<leader>?', builtin.oldfiles, { desc = '[?] Find recently opened files' })
-        vim.keymap.set('n', '<leader>/', function()
-            -- You can pass additional configuration to telescope to change theme, layout, etc.
-            require('telescope.builtin').current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
-                winblend = 10,
-                previewer = false,
-            })
-        end, { desc = '[/] Fuzzily search in current buffer' })
-    end
+      local telescope = require("telescope")
+      local actions = require("telescope.actions")
+
+      telescope.setup({
+        defaults = {
+          prompt_prefix = " ",
+          selection_caret = " ",
+          path_display = { "smart" },
+          mappings = {
+            i = {
+              ["<C-k>"] = actions.move_selection_previous,
+              ["<C-j>"] = actions.move_selection_next,
+              ["<C-q>"] = actions.send_selected_to_qflist + actions.open_qflist,
+              ["<Esc>"] = actions.close,
+            },
+          },
+        },
+        pickers = {
+          find_files = {
+            hidden = true,
+            find_command = vim.fn.executable("fd") == 1
+              and { "fd", "--type", "f", "--strip-cwd-prefix" }
+              or nil,
+          },
+        },
+        extensions = {
+          fzf = {
+            fuzzy = true,
+            override_generic_sorter = true,
+            override_file_sorter = true,
+            case_mode = "smart_case",
+          },
+        },
+      })
+
+      telescope.load_extension("fzf")
+    end,
+  },
 }
