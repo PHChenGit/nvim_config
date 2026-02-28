@@ -1,0 +1,33 @@
+# --- Neovim / Vim State ---
+*.swp
+*.swo
+*.sxo
+*.bak
+*~
+.netrwhist
+undo/
+/shada/
+
+# --- Plugin Manager Data ---
+# If you install plugins inside your config folder (not common but possible)
+/lazy/
+# Usually kept to ensure environment reproducibility,
+# but ignore if you always want the latest versions on every machine.
+# lazy-lock.json
+
+# --- Mason / LSP / DAP Binaries ---
+# Mason installs LSPs, DAPs, and formatters (binaries) here.
+# These are platform-specific (Linux vs WSL vs Mac) and should NOT be in git.
+/mason/
+
+# --- Treesitter Parsers ---
+# Compiled grammars for syntax highlighting.
+/parsers/
+
+# --- Logs ---
+*.log
+/lsp.log
+
+# --- OS Specific ---
+.DS_Store
+Thumbs.db
