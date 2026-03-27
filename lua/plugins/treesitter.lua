@@ -7,7 +7,7 @@ return {
       "nvim-treesitter/nvim-treesitter-textobjects",
     },
     config = function()
-      require("nvim-treesitter.configs").setup({
+      require("nvim-treesitter").setup({
         ensure_installed = {
           "c", "cpp", "python", "lua", "luadoc",
           "markdown", "markdown_inline",
@@ -16,46 +16,31 @@ return {
         },
         auto_install = true,
         sync_install = false,
-        highlight = {
+      })
+
+      require("nvim-treesitter-textobjects").setup({
+        select = {
           enable = true,
-          additional_vim_regex_highlighting = false,
-        },
-        indent = {
-          enable = true,
-        },
-        incremental_selection = {
-          enable = true,
+          lookahead = true,
           keymaps = {
-            init_selection = "<C-space>",
-            node_incremental = "<C-space>",
-            scope_incremental = false,
-            node_decremental = "<BS>",
+            ["af"] = "@function.outer",
+            ["if"] = "@function.inner",
+            ["ac"] = "@class.outer",
+            ["ic"] = "@class.inner",
+            ["aa"] = "@parameter.outer",
+            ["ia"] = "@parameter.inner",
           },
         },
-        textobjects = {
-          select = {
-            enable = true,
-            lookahead = true,
-            keymaps = {
-              ["af"] = "@function.outer",
-              ["if"] = "@function.inner",
-              ["ac"] = "@class.outer",
-              ["ic"] = "@class.inner",
-              ["aa"] = "@parameter.outer",
-              ["ia"] = "@parameter.inner",
-            },
+        move = {
+          enable = true,
+          set_jumps = true,
+          goto_next_start = {
+            ["]f"] = "@function.outer",
+            ["]c"] = "@class.outer",
           },
-          move = {
-            enable = true,
-            set_jumps = true,
-            goto_next_start = {
-              ["]f"] = "@function.outer",
-              ["]c"] = "@class.outer",
-            },
-            goto_previous_start = {
-              ["[f"] = "@function.outer",
-              ["[c"] = "@class.outer",
-            },
+          goto_previous_start = {
+            ["[f"] = "@function.outer",
+            ["[c"] = "@class.outer",
           },
         },
       })
